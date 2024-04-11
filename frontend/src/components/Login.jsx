@@ -58,7 +58,7 @@ function LoginForm() {
 
   const handleLogin = (e) =>{
     e.preventDefault()
-    fetch("http://localhost:8000/api/auth/login",{
+    fetch("/api/auth/login",{
             method: "POST",
             crossDomain: true,
             headers:{

@@ -28,7 +28,7 @@ function Signup2() {
     console.log(lName, lusername, lemail, lpassword)
     const handleSubmit=(e)=>{
         e.preventDefault();
-        fetch("http://localhost:8000/api/auth/signup",{
+        fetch("/api/auth/signup",{
             method: "POST",
             crossDomain: true,
             headers:{

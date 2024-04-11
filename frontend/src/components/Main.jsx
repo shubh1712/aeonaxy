@@ -10,7 +10,7 @@ function Main() {
 
   const handleResend = (e)=>{
     e.preventDefault();
-    fetch("http://localhost:8000/api/auth/resendVerificationLink",{
+    fetch("/api/auth/resendVerificationLink",{
       method: 'POST',
       crossDomain: true,
       headers:{
