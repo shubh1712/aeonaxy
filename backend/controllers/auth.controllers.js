@@ -1,6 +1,6 @@
 import User  from "../models/user.model.js"
 import bcrypt from "bcryptjs"
-// import generateTokenAndCookie from "../utils/generateTokenAndCookie.js"
+import generateTokenAndCookie from "../utils/generateTokenAndCookie.js"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 import nodemailer from "nodemailer"
@@ -297,25 +297,59 @@ export const getProfilePic = (req,res)=>{
     console.log(userId) 
 }
 export const  login =async (req, res) => {
+
+
+    // new Code
     try {
-        const {email , password} = req.body
-        const user  = await User.findOne({email })
-        const isPasswordCorrect = await bcrypt.compare(password, user?.password || "")
-        if (!user || !isPasswordCorrect ){
-            return res.status(400).json({error:"Invalid Username or Password" })
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+    
+        console.log(user.verified)
+        if (!user) {
+            return res.status(400).json({ error: "Invalid Username or Password" });
         }
-
-        generateTokenAndCookie(user._id,res)
+    
+        const isPasswordCorrect = await bcrypt.compare(password, user.password || "");
+    
+        if (!isPasswordCorrect) {
+            return res.status(400).json({ error: "Invalid Username or Password" });
+        }
+    
+        if (!user.verified) {
+            return res.status(400).json({ error: "Account not verified. Please verify your email to log in." });
+        }
+    
+        // If user is verified, proceed with login
+        generateTokenAndCookie(user._id, res);
         res.status(200).json({
-            _id:user._id,
-            email:user.email,
-            profilepic:user.profilepic
-        })
-
+            _id: user._id,
+            email: user.email,
+            profilepic: user.profilepic
+        });
     } catch (error) {
-        console.log("Error in Signup Controller:",error.message);
-        res.status(500).json({error:"Internal Server Error"})
+        console.log("Error in Login Controller:", error.message);
+        res.status(500).json({ error: "Internal Server Error" });
     }
+    
+    // try {
+    //     const {email , password} = req.body
+    //     const user  = await User.findOne({email })
+    //     const isPasswordCorrect = await bcrypt.compare(password, user?.password || "")
+    //     if (!user || !isPasswordCorrect ){
+    //         return res.status(400).json({error:"Invalid Username or Password" })
+    //     }
+
+    //     generateTokenAndCookie(user._id,res)
+    //     res.status(200).json({
+    //         _id:user._id,
+    //         email:user.email,
+    //         profilepic:user.profilepic
+    //     })
+
+    // } catch (error) {
+    //     console.log("Error in Signup Controller:",error.message);
+    //     res.status(500).json({error:"Internal Server Error"})
+    // }
 }
 export const  logout = (req, res) => {
     try {

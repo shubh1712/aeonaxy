@@ -67,12 +67,7 @@ function Signup2() {
                     <div className="button" style={{textAlign:"left"}}>
                         <label htmlFor="file-input" className='btn btn-white mx-5 mt-3 border border-2 border-primary' style={{ borderColor: '#818184' }}>Choose Image</label>
                         <input id="file-input" type="file" style={{ display: 'none' }} onChange={handleImageChange} accept=".jpg, .jpeg, .png" />
-                        <p>FIle size must be less than 15kb</p>
-                        <div className='mx-5 mt-4' style={{color: '#818184' , fontWeight:"bold"}}>
-                            <a>
-                                &gt; Or choose from our avatars
-                            </a>
-                        </div>
+                        <p style={{marginLeft:"2.2rem",color:"#818184",fontSize:"0.9rem",fontWeight:"light"}}>FIle size must be less than 120kb</p>
                     </div>
                 </div>
                 <div className='mt-5'>
