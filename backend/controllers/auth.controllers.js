@@ -151,7 +151,7 @@ export const signup=async (req, res) => {
 // }
 const sendVerificationEmail = async ({ _id, email }, res) => {
     try {
-        const url = "http://localhost:8000/";
+        const url = "https://aeonaxy-rrlc.onrender.com/";
         const uniqueString = uuidv4() + _id;
 
         const saltRounds = 10;
@@ -299,11 +299,10 @@ export const getProfilePic = (req,res)=>{
 export const  login =async (req, res) => {
     try {
         const {email , password} = req.body
-        
         const user  = await User.findOne({email })
         const isPasswordCorrect = await bcrypt.compare(password, user?.password || "")
-        if (!user || !isPasswordCorrect){
-            return res.status(400).json({error:"Invalid Username or Password"})
+        if (!user || !isPasswordCorrect ){
+            return res.status(400).json({error:"Invalid Username or Password" })
         }
 
         generateTokenAndCookie(user._id,res)
